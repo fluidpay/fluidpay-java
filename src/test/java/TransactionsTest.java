@@ -293,11 +293,12 @@ class TransactionsTest {
         }
         assertEquals("success", capTransRes.getMsg());
 
+        /*
+        // Refund transaction test (commented out)
         TransactionRefundRequest refTransReq = new TransactionRefundRequest(
                 termTransRes.getData().getAmount()
         );
 
-        /*
         TransactionResponse refTransRes = new TransactionResponse();
         try {
             fp.connection = c.init(ConnectionType.TRANSACTIONREFUND, id, false, true);

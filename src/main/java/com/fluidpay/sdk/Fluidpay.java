@@ -140,17 +140,14 @@ public class Fluidpay {
      * Note: Payment method records cannot be fetched individually. Use getCustomer() to retrieve
      * the collection of payment method records for a specified customer.
      * 
+     * Note: The connection must be set up by the caller before calling this method.
+     * Use getPaymentConnectionType() to determine the correct ConnectionType for the payload.
+     * 
      * @param reqBody The payment request payload. Can be CustomerPaymentRequest (card), ACH object, token object, Apple Pay object, or Google Pay object.
      * @return CustomerPaymentResponse containing the created payment method details
      * @throws IOException if the request fails
      */
     public CustomerPaymentResponse createCustomerPayment(Object reqBody) throws IOException {
-        // Determine the connection type based on payload
-        ConnectionType paymentType = cu.getPaymentConnectionType(reqBody);
-        
-        // Update connection if needed (connection should already be set, but ensure it's the right type)
-        // Note: The connection type is determined here, but the actual connection setup
-        // should be done by the caller before calling this method using the returned ConnectionType
         return cu.createCustomerPayment(connection, reqBody, apiKey);
     }
 

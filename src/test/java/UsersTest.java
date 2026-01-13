@@ -98,7 +98,6 @@ class UsersTest {
             e.printStackTrace();
         }
         String keyId = creKeyRes.getData().getId();
-        String newKey = creKeyRes.getData().getApiKey();
         id.put("apiKeyId", keyId);
 
         /*

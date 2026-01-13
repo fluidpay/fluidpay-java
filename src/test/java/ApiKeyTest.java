@@ -26,10 +26,10 @@ class ApiKeyTest {
 
         HashMap<String, String> id = new HashMap<>();
 
-        KeyResponse creKeyRes = new KeyResponse();
+        // Attempt to create a key (may fail if API key limit is reached, which is okay)
         try {
             fp.connection = c.init(ConnectionType.CREATEKEY, id, false, true);
-            creKeyRes = fp.createKey(keyReq);
+            fp.createKey(keyReq);
         } catch (IOException e) {
             e.printStackTrace();
         }
