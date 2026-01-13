@@ -24,12 +24,6 @@ class UsersTest {
             "admin"
     );
 
-    private ChangePasswordRequest chPwReq = new ChangePasswordRequest(
-            "testmerchant1125",
-            "T@est12345678",
-            "T@est123456789*"
-    );
-
     private UpdateUserRequest updUsrReq = new UpdateUserRequest(
             "fresh test merchant user",
             "6305555558",
