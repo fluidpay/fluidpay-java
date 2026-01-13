@@ -15,4 +15,12 @@ public class CustomerPaymentRequest {
         this.cardNumber = cardNumber;
         this.expirationDate = expirationDate;
     }
+
+    public String getCardNumber() {
+        return cardNumber;
+    }
+
+    public String getExpirationDate() {
+        return expirationDate;
+    }
 }

@@ -11,10 +11,10 @@ public class CustomerAddressResponseData{
     @JsonProperty("last_name")
     private String lastName;
     private String company;
-    @JsonProperty("address_line_1")
-    private String addressLine1;
-    @JsonProperty("address_line_2")
-    private String addressLine2;
+    @JsonProperty("line_1")
+    private String line1;
+    @JsonProperty("line_2")
+    private String line2;
     private String city;
     private String state;
     @JsonProperty("postal_code")
@@ -44,12 +44,21 @@ public class CustomerAddressResponseData{
         return company;
     }
 
+    public String getLine1() {
+        return line1;
+    }
+
+    public String getLine2() {
+        return line2;
+    }
+
+    // Legacy getters for backward compatibility
     public String getAddressLine1() {
-        return addressLine1;
+        return line1;
     }
 
     public String getAddressLine2() {
-        return addressLine2;
+        return line2;
     }
 
     public String getCity() {

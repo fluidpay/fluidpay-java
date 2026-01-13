@@ -9,4 +9,8 @@ public class CustomerPaymentMethodRequest {
     public CustomerPaymentMethodRequest(CustomerPaymentRequest card) {
         this.card = card;
     }
+
+    public CustomerPaymentRequest getCard() {
+        return card;
+    }
 }

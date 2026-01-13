@@ -1,7 +1,9 @@
 package com.fluidpay.sdk.models.transactions;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Address {
     @JsonProperty("first_name")
     private String firstName;
