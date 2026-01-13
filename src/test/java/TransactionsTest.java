@@ -1,6 +1,7 @@
 import com.fluidpay.sdk.Connection;
 import com.fluidpay.sdk.ConnectionType;
 import com.fluidpay.sdk.Fluidpay;
+import com.fluidpay.sdk.TestConstants;
 import com.fluidpay.sdk.models.customers.*;
 import com.fluidpay.sdk.models.terminals.TerminalsResponse;
 import com.fluidpay.sdk.models.transactions.*;
@@ -59,7 +60,6 @@ class TransactionsTest {
             adr
     );
 
-    private final String TestAPIkey = "api_0wUsHIlrkK1I6ADno5MfT10UjhR";
 
     @Test
     void testTransaction() {
@@ -77,7 +77,7 @@ class TransactionsTest {
                 )
         );
 
-        Fluidpay fp = new Fluidpay(TestAPIkey);
+        Fluidpay fp = new Fluidpay(TestConstants.TEST_API_KEY);
         HashMap<String, String> id = new HashMap<>();
 
         /*

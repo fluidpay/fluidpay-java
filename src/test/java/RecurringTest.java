@@ -43,11 +43,9 @@ class RecurringTest {
             rand.nextInt(50)+1
     );
 
-    private final String TestAPIkey = "api_0wUsHIlrkK1I6ADno5MfT10UjhR";
-
     @Test
     void testAddOn() {
-        Fluidpay fp = new Fluidpay(TestAPIkey);
+        Fluidpay fp = new Fluidpay(TestConstants.TEST_API_KEY);
         HashMap<String, String> id = new HashMap<>();
 
         RecurrenceResponse creAonRes = new RecurrenceResponse();
@@ -102,7 +100,7 @@ class RecurringTest {
 
     @Test
     void testDiscount() {
-        Fluidpay fp = new Fluidpay(TestAPIkey);
+        Fluidpay fp = new Fluidpay(TestConstants.TEST_API_KEY);
         HashMap<String, String> id = new HashMap<>();
 
         RecurrenceResponse creDisRes = new RecurrenceResponse();
@@ -209,7 +207,7 @@ class RecurringTest {
 
     @Test
     void testPlanAndSubscription() {
-        Fluidpay fp = new Fluidpay(TestAPIkey);
+        Fluidpay fp = new Fluidpay(TestConstants.TEST_API_KEY);
         HashMap<String, String> id = new HashMap<>();
 
         RecurrenceResponse creAonRes = new RecurrenceResponse();

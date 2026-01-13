@@ -1,6 +1,7 @@
 import com.fluidpay.sdk.Connection;
 import com.fluidpay.sdk.ConnectionType;
 import com.fluidpay.sdk.Fluidpay;
+import com.fluidpay.sdk.TestConstants;
 import com.fluidpay.sdk.models.terminals.TerminalsResponse;
 import org.junit.jupiter.api.Test;
 
@@ -12,11 +13,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class TerminalsTest {
     private Connection c = new Connection();
 
-    private final String TestAPIkey = "api_0wUsHIlrkK1I6ADno5MfT10UjhR";
-
     @Test
     void testTerminals() {
-        Fluidpay fp = new Fluidpay(TestAPIkey);
+        Fluidpay fp = new Fluidpay(TestConstants.TEST_API_KEY);
         HashMap<String, String> id = new HashMap<>();
 
         TerminalsResponse getTerRes = new TerminalsResponse();

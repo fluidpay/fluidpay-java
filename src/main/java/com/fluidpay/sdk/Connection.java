@@ -50,21 +50,6 @@ public class Connection {
                     return conn(param, sandbox, localDev);
                 }
                 throw new Error("missing api key id");
-            case OBTAINJWT:
-                param = new String[]{"token-auth"};
-                return conn(param, sandbox, localDev);
-            case FORGOTTENUSERNAME:
-                param = new String[]{"user", "forgot-username"};
-                return conn(param, sandbox, localDev);
-            case FORGOTTENPASSWORD:
-                param = new String[]{"user", "forgot-password"};
-                return conn(param, sandbox, localDev);
-            case PASSWORDRESET:
-                param = new String[]{"user", "forgot-password", "reset"};
-                return conn(param, sandbox, localDev);
-            case TOKENLOGOUT:
-                param = new String[]{"logout"};
-                return conn(param, sandbox, localDev);
             case CUSTOMER:
                 param = new String[]{"vault", "customer"};
                 return conn(param, sandbox, localDev);
@@ -295,21 +280,6 @@ public class Connection {
                     return conn(param);
                 }
                 throw new Error("missing api key id");
-            case OBTAINJWT:
-                param = new String[]{"token-auth"};
-                return conn(param);
-            case FORGOTTENUSERNAME:
-                param = new String[]{"user", "forgot-username"};
-                return conn(param);
-            case FORGOTTENPASSWORD:
-                param = new String[]{"user", "forgot-password"};
-                return conn(param);
-            case PASSWORDRESET:
-                param = new String[]{"user", "forgot-password", "reset"};
-                return conn(param);
-            case TOKENLOGOUT:
-                param = new String[]{"logout"};
-                return conn(param);
             case CUSTOMER:
                 param = new String[]{"vault", "customer"};
                 return conn(param);

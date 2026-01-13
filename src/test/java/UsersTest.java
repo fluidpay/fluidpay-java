@@ -44,11 +44,9 @@ class UsersTest {
             "testapikey"
     );
 
-    private final String TestAPIkey = "api_0wUsHIlrkK1I6ADno5MfT10UjhR";
-
     @Test
     void testUser() {
-        Fluidpay fp = new Fluidpay(TestAPIkey);
+        Fluidpay fp = new Fluidpay(TestConstants.TEST_API_KEY);
         HashMap<String, String> id = new HashMap<>();
 
         UserResponse currUsrRes = new UserResponse();

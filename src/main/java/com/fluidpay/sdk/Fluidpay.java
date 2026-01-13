@@ -35,7 +35,6 @@ public class Fluidpay {
     }
 
     private ApiKey ak = new ApiKey();
-    private Authentication au = new Authentication();
     private Customers cu = new Customers();
     private Recurring re = new Recurring();
     private Terminals te = new Terminals();
@@ -63,43 +62,6 @@ public class Fluidpay {
      */
     public KeyResponse deleteKey() throws IOException {
         return ak.deleteKey(connection, apiKey);
-    }
-
-    // Authentication section
-
-    /**
-     * obtains a new JWT token
-     */
-    public JWTTokenResponse obtainJWT(JWTTokenRequest reqBody) throws IOException {
-        return au.obtainJWT(connection, reqBody, apiKey);
-    }
-
-    /**
-     * requests a reminder e-mail for the username
-     */
-    public GeneralResponse forgottenUsername(ForgottenUsernameRequest reqBody) throws IOException {
-        return au.forgottenUsername(connection, reqBody, apiKey);
-    }
-
-    /**
-     * requests a reminder e-mail containing a reset code for the password
-     */
-    public GeneralResponse forgottenPassword(ForgottenPasswordRequest reqBody) throws IOException {
-        return au.forgottenPassword(connection, reqBody, apiKey);
-    }
-
-    /**
-     * resets your password to the one given in the request body
-     */
-    public GeneralResponse passwordReset(PasswordResetRequest reqBody) throws IOException {
-        return au.passwordReset(connection, reqBody, apiKey);
-    }
-
-    /**
-     * terminates a valid authentication token
-     */
-    public void tokenLogout() throws IOException {
-        au.tokenLogout(connection, apiKey);
     }
 
     // Customers section
@@ -140,139 +102,96 @@ public class Fluidpay {
     }
 
     /**
-     * creates a new customer address token (customerId)
+     * Creates a new address record within a customer record.
+     * POST /api/vault/customer/{customer_id}/address
+     * Note: Address records cannot be fetched individually. Use getCustomer() to retrieve
+     * the collection of address records for a specified customer.
      */
     public CustomerAddressResponse createCustomerAddress(CustomerAddressRequest reqBody) throws IOException {
         return cu.createCustomerAddress(connection, reqBody, apiKey);
     }
 
     /**
-     * returns an address token of a customer both identified by ID (customerId, addressTokenId)
-     */
-    public CustomerAddressesResponse getCustomerAddress() throws IOException {
-        return cu.getCustomerAddress(connection, apiKey);
-    }
-
-    /**
-     * returns all the address tokens of a customer identified by ID (customerId)
-     */
-    public CustomerAddressesResponse getCustomerAddresses() throws IOException {
-        return cu.getCustomerAddresses(connection, apiKey);
-    }
-
-    /**
-     * updates an address token of a customer both identified by ID (customerId, addressTokenId)
+     * Updates an existing address within a customer record.
+     * POST /api/vault/customer/{customer_id}/address/{address_id}
      */
     public CustomerAddressResponse updateCustomerAddress(CustomerAddressRequest reqBody) throws IOException {
         return cu.updateCustomerAddress(connection, reqBody, apiKey);
     }
 
     /**
-     * deletes an address token of a customer both identified by the ID (customerId, addressTokenId)
+     * Deletes the specified address within a customer record.
+     * DELETE /api/vault/customer/{customer_id}/address/{address_id}
      */
     public CustomerAddressResponse deleteCustomerAddress() throws IOException {
         return cu.deleteCustomerAddress(connection, apiKey);
     }
 
-    // Card payment methods
+    // Payment methods
     /**
-     * creates a new customer card payment method (customerId)
+     * Creates a new stored payment method on the specified customer record.
+     * The endpoint is determined automatically based on the payload structure:
+     * - Card: POST /api/vault/customer/{customer_id}/card (has number/expiration_date)
+     * - ACH: POST /api/vault/customer/{customer_id}/ach (has account_number/routing_number)
+     * - Token: POST /api/vault/customer/{customer_id}/token (has token field)
+     * - Apple Pay: POST /api/vault/customer/{customer_id}/applepay (has apple_pay fields)
+     * - Google Pay: POST /api/vault/customer/{customer_id}/googlepay (has google_pay_token)
+     * 
+     * Note: Payment method records cannot be fetched individually. Use getCustomer() to retrieve
+     * the collection of payment method records for a specified customer.
+     * 
+     * @param reqBody The payment request payload. Can be CustomerPaymentRequest (card), ACH object, token object, Apple Pay object, or Google Pay object.
+     * @return CustomerPaymentResponse containing the created payment method details
+     * @throws IOException if the request fails
      */
-    public CustomerPaymentResponse createCustomerCard(CustomerPaymentRequest reqBody) throws IOException {
-        return cu.createCustomerCard(connection, reqBody, apiKey);
-    }
-
-    /**
-     * returns all card payment methods of a customer identified by ID (customerId)
-     */
-    public CustomerPaymentsResponse getCustomerCards() throws IOException {
-        return cu.getCustomerCards(connection, apiKey);
-    }
-
-    /**
-     * returns a specific card payment method of a customer (customerId, paymentTokenId)
-     */
-    public CustomerPaymentResponse getCustomerCard() throws IOException {
-        return cu.getCustomerCard(connection, apiKey);
-    }
-
-    /**
-     * updates a card payment method of a customer (customerId, paymentTokenId)
-     */
-    public CustomerPaymentResponse updateCustomerCard(CustomerPaymentRequest reqBody) throws IOException {
-        return cu.updateCustomerCard(connection, reqBody, apiKey);
-    }
-
-    /**
-     * deletes a card payment method of a customer (customerId, paymentTokenId)
-     */
-    public CustomerPaymentResponse deleteCustomerCard() throws IOException {
-        return cu.deleteCustomerCard(connection, apiKey);
-    }
-
-    // ACH payment methods
-    /**
-     * creates a new customer ACH payment method (customerId)
-     */
-    public CustomerPaymentResponse createCustomerAch(Object reqBody) throws IOException {
-        return cu.createCustomerAch(connection, reqBody, apiKey);
-    }
-
-    /**
-     * returns a specific ACH payment method of a customer (customerId, paymentTokenId)
-     */
-    public CustomerPaymentResponse getCustomerAch() throws IOException {
-        return cu.getCustomerAch(connection, apiKey);
-    }
-
-    /**
-     * updates an ACH payment method of a customer (customerId, paymentTokenId)
-     */
-    public CustomerPaymentResponse updateCustomerAch(Object reqBody) throws IOException {
-        return cu.updateCustomerAch(connection, reqBody, apiKey);
-    }
-
-    /**
-     * deletes an ACH payment method of a customer (customerId, paymentTokenId)
-     */
-    public CustomerPaymentResponse deleteCustomerAch() throws IOException {
-        return cu.deleteCustomerAch(connection, apiKey);
-    }
-
-    // Legacy methods for backward compatibility
-    /**
-     * creates a new customer payment token (customerId) - legacy method, use createCustomerCard instead
-     */
-    public CustomerPaymentResponse createCustomerPayment(CustomerPaymentRequest reqBody) throws IOException {
+    public CustomerPaymentResponse createCustomerPayment(Object reqBody) throws IOException {
+        // Determine the connection type based on payload
+        ConnectionType paymentType = cu.getPaymentConnectionType(reqBody);
+        
+        // Update connection if needed (connection should already be set, but ensure it's the right type)
+        // Note: The connection type is determined here, but the actual connection setup
+        // should be done by the caller before calling this method using the returned ConnectionType
         return cu.createCustomerPayment(connection, reqBody, apiKey);
     }
 
     /**
-     * returns a payment token of a customer both identified by ID (customerId, paymentTokenId) - legacy method
+     * Updates an existing payment method within a customer record.
+     * The endpoint is determined automatically based on the payload structure and payment method ID.
+     * - Card: POST /api/vault/customer/{customer_id}/card/{payment_method_id}
+     * - ACH: POST /api/vault/customer/{customer_id}/ach/{payment_method_id}
+     * - Token: POST /api/vault/customer/{customer_id}/token/{payment_method_id}
+     * 
+     * @param reqBody The payment update request payload
+     * @return CustomerPaymentResponse containing the updated payment method details
+     * @throws IOException if the request fails
      */
-    public CustomerPaymentsResponse getCustomerPayment() throws IOException {
-        return cu.getCustomerPayment(connection, apiKey);
-    }
-
-    /**
-     * returns all the payment tokens of a customer identified by ID (customerId) - legacy method, use getCustomerCards instead
-     */
-    public CustomerPaymentsResponse getCustomerPayments() throws IOException {
-        return cu.getCustomerPayments(connection, apiKey);
-    }
-
-    /**
-     * updates a payment token of a customer both identified by ID (customerId, paymentTokenId) - legacy method, use updateCustomerCard instead
-     */
-    public CustomerPaymentResponse updateCustomerPayment(CustomerPaymentRequest reqBody) throws IOException {
+    public CustomerPaymentResponse updateCustomerPayment(Object reqBody) throws IOException {
         return cu.updateCustomerPayment(connection, reqBody, apiKey);
     }
 
     /**
-     * deletes a payment token of a customer both identified by the ID (customerId, paymentTokenId) - legacy method, use deleteCustomerCard instead
+     * Deletes the specified payment method within a customer record.
+     * The endpoint is determined by the connection type set on the connection:
+     * - Card: DELETE /api/vault/customer/{customer_id}/card/{card_id}
+     * - ACH: DELETE /api/vault/customer/{customer_id}/ach/{ach_id}
+     * 
+     * @return CustomerPaymentResponse confirming deletion
+     * @throws IOException if the request fails
      */
     public CustomerPaymentResponse deleteCustomerPayment() throws IOException {
         return cu.deleteCustomerPayment(connection, apiKey);
+    }
+
+    /**
+     * Helper method to determine the ConnectionType needed for a payment payload.
+     * Use this to set up the connection before calling createCustomerPayment.
+     * 
+     * @param reqBody The payment request payload
+     * @return ConnectionType that should be used for the connection
+     * @throws IOException if payload cannot be parsed
+     */
+    public ConnectionType getPaymentConnectionType(Object reqBody) throws IOException {
+        return cu.getPaymentConnectionType(reqBody);
     }
 
     // Recurring section

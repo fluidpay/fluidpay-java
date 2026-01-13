@@ -6,10 +6,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class AuthTest {
     @Test
     void testAuth() {
-        Auth auth = new Auth(1, "myApiKey");
+        Auth auth = new Auth("myApiKey");
         assertEquals("myApiKey", auth.getAuthorization());
-
-        auth.setAuth(2, "myJWTToken");
-        assertEquals("Bearer myJWTToken", auth.getAuthorization());
+        
+        auth.setAuth("newApiKey");
+        assertEquals("newApiKey", auth.getAuthorization());
     }
 }

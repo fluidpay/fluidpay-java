@@ -41,7 +41,17 @@ public class Utils {
                     os.close();
                 }
             }
-            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(),UTF_8));
+            // Check response code and read from appropriate stream
+            int responseCode = conn.getResponseCode();
+            InputStream inputStream = responseCode >= 200 && responseCode < 300 
+                ? conn.getInputStream() 
+                : conn.getErrorStream();
+            
+            if (inputStream == null) {
+                throw new IOException("Server returned HTTP response code: " + responseCode + " for URL: " + conn.getURL());
+            }
+            
+            BufferedReader in = new BufferedReader(new InputStreamReader(inputStream, UTF_8));
             StringBuilder resp = new StringBuilder();
             try {
                 String line;
