@@ -299,28 +299,80 @@ public class Fluidpay {
     }
 
     /**
-     * creates a new subscription
+     * Creates a new subscription which applies a recurring billing plan to a customer.
+     * POST /api/recurring/subscription
      */
     public SubscriptionResponse createSubscription(SubscriptionRequest reqBody) throws IOException {
         return re.createSubscription(connection, reqBody, apiKey);
     }
 
     /**
-     * gets the subscription identified by the ID (subscriptionId)
+     * Retrieve details for the specified subscription.
+     * GET /api/recurring/subscription/{subscription_id}
      */
-    public  SubscriptionsResponse getSubscription() throws IOException {
+    public SubscriptionResponse getSubscription() throws IOException {
         return re.getSubscription(connection, apiKey);
     }
 
     /**
-     * updates the subscription identified by the ID (subscriptionId)
+     * Retrieve details for all subscriptions that match provided search criteria.
+     * POST /api/recurring/subscription/search
+     */
+    public SubscriptionsResponse searchSubscriptions(Object reqBody) throws IOException {
+        return re.searchSubscriptions(connection, reqBody, apiKey);
+    }
+
+    /**
+     * Edit details for the specified subscription.
+     * POST /api/recurring/subscription/{subscription_id}
      */
     public SubscriptionResponse updateSubscription(SubscriptionRequest reqBody) throws IOException {
         return re.updateSubscription(connection, reqBody, apiKey);
     }
 
     /**
-     * deletes the subscription identified by the ID (subscriptionId)
+     * Pause the specified subscription.
+     * GET /api/recurring/subscription/{subscription_id}/status/paused
+     */
+    public SubscriptionResponse pauseSubscription() throws IOException {
+        return re.pauseSubscription(connection, apiKey);
+    }
+
+    /**
+     * Mark the specified subscription as past due.
+     * GET /api/recurring/subscription/{subscription_id}/status/past_due
+     */
+    public SubscriptionResponse markSubscriptionPastDue() throws IOException {
+        return re.markSubscriptionPastDue(connection, apiKey);
+    }
+
+    /**
+     * Cancel the specified subscription.
+     * GET /api/recurring/subscription/{subscription_id}/status/cancelled
+     */
+    public SubscriptionResponse cancelSubscription() throws IOException {
+        return re.cancelSubscription(connection, apiKey);
+    }
+
+    /**
+     * Activate the specified subscription.
+     * GET /api/recurring/subscription/{subscription_id}/status/active
+     */
+    public SubscriptionResponse activateSubscription() throws IOException {
+        return re.activateSubscription(connection, apiKey);
+    }
+
+    /**
+     * Complete the specified subscription.
+     * GET /api/recurring/subscription/{subscription_id}/status/completed
+     */
+    public SubscriptionResponse completeSubscription() throws IOException {
+        return re.completeSubscription(connection, apiKey);
+    }
+
+    /**
+     * Delete the specified subscription.
+     * DELETE /api/recurring/subscription/{subscription_id}
      */
     public SubscriptionResponse deleteSubscription() throws IOException {
         return re.deleteSubscription(connection, apiKey);

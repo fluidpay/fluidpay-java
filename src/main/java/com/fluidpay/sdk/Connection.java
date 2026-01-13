@@ -206,6 +206,39 @@ public class Connection {
                     return conn(param, sandbox, localDev);
                 }
                 throw new Error("missing subscription id");
+            case SUBSCRIPTIONSEARCH:
+                param = new String[]{"recurring", "subscription", "search"};
+                return conn(param, sandbox, localDev);
+            case SUBSCRIPTIONPAUSED:
+                if (params.containsKey("subscriptionId")) {
+                    param = new String[]{"recurring", "subscription", params.get("subscriptionId"), "status", "paused"};
+                    return conn(param, sandbox, localDev);
+                }
+                throw new Error("missing subscription id");
+            case SUBSCRIPTIONPASTDUE:
+                if (params.containsKey("subscriptionId")) {
+                    param = new String[]{"recurring", "subscription", params.get("subscriptionId"), "status", "past_due"};
+                    return conn(param, sandbox, localDev);
+                }
+                throw new Error("missing subscription id");
+            case SUBSCRIPTIONCANCELLED:
+                if (params.containsKey("subscriptionId")) {
+                    param = new String[]{"recurring", "subscription", params.get("subscriptionId"), "status", "cancelled"};
+                    return conn(param, sandbox, localDev);
+                }
+                throw new Error("missing subscription id");
+            case SUBSCRIPTIONACTIVE:
+                if (params.containsKey("subscriptionId")) {
+                    param = new String[]{"recurring", "subscription", params.get("subscriptionId"), "status", "active"};
+                    return conn(param, sandbox, localDev);
+                }
+                throw new Error("missing subscription id");
+            case SUBSCRIPTIONCOMPLETED:
+                if (params.containsKey("subscriptionId")) {
+                    param = new String[]{"recurring", "subscription", params.get("subscriptionId"), "status", "completed"};
+                    return conn(param, sandbox, localDev);
+                }
+                throw new Error("missing subscription id");
             case TERMINALS:
                 param = new String[]{"terminals"};
                 return conn(param, sandbox, localDev);
@@ -433,6 +466,39 @@ public class Connection {
             case SUBSCRIPTIONID:
                 if (params.containsKey("subscriptionId")) {
                     param = new String[]{"recurring", "subscription", params.get("subscriptionId")};
+                    return conn(param);
+                }
+                throw new Error("missing subscription id");
+            case SUBSCRIPTIONSEARCH:
+                param = new String[]{"recurring", "subscription", "search"};
+                return conn(param);
+            case SUBSCRIPTIONPAUSED:
+                if (params.containsKey("subscriptionId")) {
+                    param = new String[]{"recurring", "subscription", params.get("subscriptionId"), "status", "paused"};
+                    return conn(param);
+                }
+                throw new Error("missing subscription id");
+            case SUBSCRIPTIONPASTDUE:
+                if (params.containsKey("subscriptionId")) {
+                    param = new String[]{"recurring", "subscription", params.get("subscriptionId"), "status", "past_due"};
+                    return conn(param);
+                }
+                throw new Error("missing subscription id");
+            case SUBSCRIPTIONCANCELLED:
+                if (params.containsKey("subscriptionId")) {
+                    param = new String[]{"recurring", "subscription", params.get("subscriptionId"), "status", "cancelled"};
+                    return conn(param);
+                }
+                throw new Error("missing subscription id");
+            case SUBSCRIPTIONACTIVE:
+                if (params.containsKey("subscriptionId")) {
+                    param = new String[]{"recurring", "subscription", params.get("subscriptionId"), "status", "active"};
+                    return conn(param);
+                }
+                throw new Error("missing subscription id");
+            case SUBSCRIPTIONCOMPLETED:
+                if (params.containsKey("subscriptionId")) {
+                    param = new String[]{"recurring", "subscription", params.get("subscriptionId"), "status", "completed"};
                     return conn(param);
                 }
                 throw new Error("missing subscription id");
