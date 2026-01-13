@@ -3,6 +3,7 @@ package com.fluidpay.sdk.models.transactions;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CardResponse{
@@ -33,6 +34,7 @@ public class CardResponse{
     @JsonProperty("cvv_response_code")
     private String cvvResponseCode;
     @JsonProperty("processor_specific")
+    @JsonDeserialize(using = ProcessorSpecificDeserializer.class)
     private ProcessorSpecific processorSpecific;
     @JsonProperty("created_at")
     private String createdAt;

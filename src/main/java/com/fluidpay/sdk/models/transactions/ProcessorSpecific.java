@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ProcessorSpecific {
+    public ProcessorSpecific() {
+    }
     @JsonProperty("BatchNum")
     private String batchNum;
     @JsonProperty("CashBack")

@@ -392,42 +392,57 @@ public class Fluidpay {
     // Transaction section
 
     /**
-     * handles one transaction process
+     * Process a transaction through the gateway.
+     * Supports multiple payment methods: card, ACH, customer vault, terminal, token, APM, and Apple Pay.
+     * 
+     * Note: The API supports many additional fields not currently in the request models.
+     * See Transactions.java documentation for a complete list of available fields.
+     * 
+     * POST /api/transaction
      */
     public TerminalResponse doTransaction(TransactionRequest reqBody) throws IOException{
         return tr.doTransaction(connection, reqBody, apiKey);
     }
 
     /**
-     * gets the status of a transaction identified by ID (transactionId)
+     * Retrieve details for a specific transaction.
+     * GET /api/transaction/{transaction_id}
      */
     public TransactionSearchResponse getTransactionStatus() throws IOException {
         return tr.getTransactionStatus(connection, apiKey);
     }
 
     /**
-     * gets transaction identified by the values in the request body
+     * Retrieve details for all transactions that match provided search criteria.
+     * If no created_at date range is provided, defaults to the prior four months.
+     * POST /api/transaction/search
      */
     public TransactionSearchResponse queryTransactions(TransactionQueryRequest reqBody) throws IOException {
         return tr.queryTransactions(connection, reqBody, apiKey);
     }
 
     /**
-     * captures an already authorized transaction identified by ID (transactionId)
+     * Capture funds for a specified transaction that has already been authorized.
+     * POST /api/transaction/{transaction_id}/capture
      */
     public TransactionResponse captureTransaction(TransactionCaptureRequest reqBody) throws IOException {
         return tr.captureTransaction(connection, reqBody, apiKey);
     }
 
     /**
-     * voids a transaction with pending settlement identified by ID (transactionId)
+     * Void a transaction that is pending settlement.
+     * Where applicable, a void will be processed as an auth reversal.
+     * POST /api/transaction/{transaction_id}/void
      */
     public TransactionResponse voidTransaction() throws IOException {
         return tr.voidTransaction(connection, apiKey);
     }
 
     /**
-     * refunds a previously settled amount
+     * Process a refund for a transaction that has already been settled.
+     * Multiple partial refunds can be processed, but the total amount of all refunds
+     * cannot exceed the previously settled amount.
+     * POST /api/transaction/{transaction_id}/refund
      */
     public TransactionResponse refundTransaction(TransactionRefundRequest reqBody) throws IOException {
         return tr.refundTransaction(connection, reqBody, apiKey);

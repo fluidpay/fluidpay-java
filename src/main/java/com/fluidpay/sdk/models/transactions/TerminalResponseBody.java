@@ -3,6 +3,7 @@ package com.fluidpay.sdk.models.transactions;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TerminalResponseBody {
@@ -32,6 +33,7 @@ public class TerminalResponseBody {
     @JsonProperty("processor_response_text")
     private String processorResponseText;
     @JsonProperty("processor_specific")
+    @JsonDeserialize(using = ProcessorSpecificDeserializer.class)
     private ProcessorSpecific processorSpecific;
     @JsonProperty("emv_aid")
     private String emvAid;

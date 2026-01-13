@@ -3,6 +3,7 @@ package com.fluidpay.sdk.models.transactions;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AchResponseBody {
@@ -29,6 +30,7 @@ public class AchResponseBody {
     @JsonProperty("processor_id")
     private String processorId;
     @JsonProperty("processor_specific")
+    @JsonDeserialize(using = AchSpecificDeserializer.class)
     private AchSpecific processorSpecific;
     @JsonProperty("created_at")
     private String createdAt;
