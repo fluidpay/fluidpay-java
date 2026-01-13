@@ -1,10 +1,13 @@
 package com.fluidpay.sdk.models.customers;
 
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Card payment method for default_payment
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DefaultPaymentCard {
     private String number;
     @JsonProperty("expiration_date")

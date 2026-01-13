@@ -1,12 +1,15 @@
 package com.fluidpay.sdk.models.customers;
 
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fluidpay.sdk.models.transactions.DateQuery;
 import com.fluidpay.sdk.models.transactions.StringQuery;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Request for searching customers
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CustomerSearchRequest {
     private StringQuery id;
     private StringQuery description;

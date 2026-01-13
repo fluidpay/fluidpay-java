@@ -1,8 +1,11 @@
 package com.fluidpay.sdk.models.authentication;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * response from requesting a new JWT token
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class JWTTokenResponse {
     private String status;
     private String msg;

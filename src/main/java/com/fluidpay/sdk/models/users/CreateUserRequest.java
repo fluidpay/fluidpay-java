@@ -1,9 +1,12 @@
 package com.fluidpay.sdk.models.users;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * request body for creating a new user
  * (status can be active or disabled, role can be admin or standard)
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CreateUserRequest {
     private String username;
     private String name;

@@ -1,8 +1,12 @@
 package com.fluidpay.sdk.models.authentication;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * response with empty data
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GeneralResponse {
     private String status;
     private String msg;

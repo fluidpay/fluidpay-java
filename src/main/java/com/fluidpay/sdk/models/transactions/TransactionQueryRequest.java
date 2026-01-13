@@ -1,11 +1,14 @@
 package com.fluidpay.sdk.models.transactions;
 
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * request for querying a transaction,
  * all fields are optional, modified by setters
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TransactionQueryRequest {
     @JsonProperty("transaction_id")
     private StringQuery transactionId;

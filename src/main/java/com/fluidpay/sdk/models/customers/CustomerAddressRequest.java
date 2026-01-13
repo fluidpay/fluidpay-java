@@ -1,10 +1,13 @@
 package com.fluidpay.sdk.models.customers;
 
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * request to create or update a customer address token
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CustomerAddressRequest {
     @JsonProperty("first_name")
     private String firstName;

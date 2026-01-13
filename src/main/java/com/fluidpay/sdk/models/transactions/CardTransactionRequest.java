@@ -1,10 +1,13 @@
 package com.fluidpay.sdk.models.transactions;
 
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * request to process a card transaction
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CardTransactionRequest implements TransactionRequest{
     private String type;
     private int amount;

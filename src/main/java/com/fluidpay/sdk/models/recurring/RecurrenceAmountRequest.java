@@ -1,8 +1,11 @@
 package com.fluidpay.sdk.models.recurring;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * request to create or update an add on with amount
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RecurrenceAmountRequest implements RecurrenceRequest {
     private String name;
     private String description;

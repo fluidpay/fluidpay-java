@@ -1,10 +1,13 @@
 package com.fluidpay.sdk.models.recurring;
 
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * request to create or update a plan
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PlanRequest {
     private String name;
     private String description;

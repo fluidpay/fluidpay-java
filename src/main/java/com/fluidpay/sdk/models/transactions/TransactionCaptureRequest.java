@@ -1,10 +1,13 @@
 package com.fluidpay.sdk.models.transactions;
 
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * request to capture a transaction
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TransactionCaptureRequest {
     private int amount;
     @JsonProperty("tax_amount")

@@ -1,10 +1,13 @@
 package com.fluidpay.sdk.models.customers;
 
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Default payment method for customer creation
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DefaultPayment {
     private DefaultPaymentCard card;
     private DefaultPaymentAch ach;

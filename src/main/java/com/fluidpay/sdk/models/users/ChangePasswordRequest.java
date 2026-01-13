@@ -1,10 +1,13 @@
 package com.fluidpay.sdk.models.users;
 
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * request body for changing the password
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ChangePasswordRequest{
     private String username;
     @JsonProperty("current_password")

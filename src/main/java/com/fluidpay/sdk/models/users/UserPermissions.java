@@ -1,7 +1,10 @@
 package com.fluidpay.sdk.models.users;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UserPermissions {
     @JsonProperty("manage_users")
     private boolean manageUsers;

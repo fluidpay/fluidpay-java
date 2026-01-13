@@ -1,5 +1,8 @@
 package com.fluidpay.sdk.models.transactions;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CardholderAuthentication {
     private String condition;
     private String eci;

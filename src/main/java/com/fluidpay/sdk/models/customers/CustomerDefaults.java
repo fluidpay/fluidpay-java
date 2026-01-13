@@ -1,10 +1,13 @@
 package com.fluidpay.sdk.models.customers;
 
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Default payment methods and addresses for customer update
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CustomerDefaults {
     @JsonProperty("billing_address_id")
     private String billingAddressId;

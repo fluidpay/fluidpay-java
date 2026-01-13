@@ -1,10 +1,13 @@
 package com.fluidpay.sdk.models.transactions;
 
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * request to process a terminal transaction
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TerminalTransactionRequest implements TransactionRequest{
     private String type;
     private int amount;

@@ -1,10 +1,13 @@
 package com.fluidpay.sdk.models.terminals;
 
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * response form getting all the terminals
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TerminalsResponse {
     private String status;
     private String msg;

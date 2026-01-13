@@ -1,10 +1,13 @@
 package com.fluidpay.sdk.models.users;
 
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * response for all the users
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UsersResponse {
     private String status;
     private String msg;

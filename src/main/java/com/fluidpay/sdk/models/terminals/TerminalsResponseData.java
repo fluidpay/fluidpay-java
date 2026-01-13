@@ -1,7 +1,10 @@
 package com.fluidpay.sdk.models.terminals;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TerminalsResponseData {
     private String id;
     @JsonProperty("merchant_id")

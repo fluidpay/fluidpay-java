@@ -1,5 +1,8 @@
 package com.fluidpay.sdk.models.apikey;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class KeyRequest {
     private String type;
     private String name;

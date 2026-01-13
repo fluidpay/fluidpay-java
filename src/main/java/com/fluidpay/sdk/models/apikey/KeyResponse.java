@@ -1,8 +1,12 @@
 package com.fluidpay.sdk.models.apikey;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * response for creating a new API key for a user
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class KeyResponse {
     private String status;
     private String msg;

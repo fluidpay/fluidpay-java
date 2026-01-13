@@ -1,8 +1,11 @@
 package com.fluidpay.sdk.models.transactions;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * response after a transaction
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TransactionResponse {
     private String status;
     private String msg;

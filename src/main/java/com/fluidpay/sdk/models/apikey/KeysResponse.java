@@ -1,10 +1,13 @@
 package com.fluidpay.sdk.models.apikey;
 
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * response for getting all the keys for a user
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class KeysResponse {
     private String status;
     private String msg;

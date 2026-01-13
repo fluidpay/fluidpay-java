@@ -1,8 +1,11 @@
 package com.fluidpay.sdk.models.recurring;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * response from a plan
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PlanResponse {
     private String status;
     private String msg;

@@ -1,7 +1,10 @@
 package com.fluidpay.sdk.models.transactions;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AchResponseBody {
     private String id;
     @JsonProperty("sec_code")

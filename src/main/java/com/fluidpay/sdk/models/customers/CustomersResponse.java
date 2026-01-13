@@ -1,10 +1,13 @@
 package com.fluidpay.sdk.models.customers;
 
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * response from searching customers or getting all customers
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CustomersResponse {
     private String status;
     private String msg;

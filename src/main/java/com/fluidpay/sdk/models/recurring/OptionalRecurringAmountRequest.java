@@ -1,9 +1,12 @@
 package com.fluidpay.sdk.models.recurring;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * if you don't want to change the attributes of the original
  * enter the old data
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class OptionalRecurringAmountRequest implements OptionalRecurringRequest{
     private String id;
     private String name;

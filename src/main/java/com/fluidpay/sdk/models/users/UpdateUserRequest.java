@@ -1,8 +1,11 @@
 package com.fluidpay.sdk.models.users;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * request body for updating a user
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UpdateUserRequest {
     private String name;
     private String phone;

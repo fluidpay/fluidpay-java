@@ -1,10 +1,13 @@
 package com.fluidpay.sdk.models.recurring;
 
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * response from getting the subscription
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SubscriptionsResponse {
     private String status;
     private String msg;

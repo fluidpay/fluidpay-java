@@ -1,10 +1,13 @@
 package com.fluidpay.sdk.models.customers;
 
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * ACH payment method for default_payment
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DefaultPaymentAch {
     @JsonProperty("account_number")
     private String accountNumber;
