@@ -1,11 +1,13 @@
 # fluidpay-java
-This is the official SDK for the Fluid Pay API written in the JAVA programming language.
+This is the official SDK for the Fluid Pay API written in the Java programming language.
 
 ## Getting started
 Import the SDK from the [Maven Repository](link needs to be inserted).
 
 ## General Information
-HttpsURLConnection should be initialized through Connection.init() using the proper ConnectionType (E.g. USER for the api/user endpoint and USERID for api/usr/<user_id>) and a map containing the proper path variables (E.g. userId, paymentType or addressTokenId).
+HttpURLConnection should be initialized through `Connection.init()` using the proper `ConnectionType` (e.g., `CUSTOMER` for the `/api/vault/customer` endpoint and `CUSTOMERID` for `/api/vault/customer/{customer_id}`) and a map containing the proper path variables (e.g., `customerId`, `paymentTokenId`, or `addressTokenId`).
+
+**Note:** This SDK uses API key authentication only. JWT authentication is not supported.
 ```
 import com.fluidpay.sdk.*;
 
@@ -26,11 +28,12 @@ public class Example {
     // Map to contain the different IDs.
     HashMap<String, String> pathVariables = new HashMap<>();
     
-    // The HttpsURLConnection can be customized before use.
+    // The HttpURLConnection can be customized before use.
     Connection c = new Connection();
     
     // The ConnectionType Enum contains the different paths.
-    fp.connection = c.init(ConnectionType.USER, pathVariables);
+    // Parameters: ConnectionType, pathVariables map, sandbox (false), localDev (true for localhost)
+    fp.connection = c.init(ConnectionType.USER, pathVariables, false, true);
     
     UserResponse creUsrRes = fp.createUser(creUsrReq);
 }
@@ -47,228 +50,237 @@ public class FunctionList {
     
     // API key section
     
-    fp.connection = c.init(ConnectionType.CREATEKEY, id);
-    fp.createKey(KeyRequest reqBody) // creates a new api key
+    fp.connection = c.init(ConnectionType.CREATEKEY, id, false, true);
+    fp.createKey(KeyRequest reqBody) // creates a new API key
 
-    fp.connection = c.init(ConnectionType.GETKEYS, id);
+    fp.connection = c.init(ConnectionType.GETKEYS, id, false, true);
     fp.getKeys() // returns all keys for the current user
 
     id.put("apiKeyId", "yourAPIKeyId");
-    fp.connection = c.init(ConnectionType.DELETEKEY, id);
-    fp.deleteKey(HttpURLConnection conn, String apiKey) // deletes the key
-
-    // Authentication section
-    
-    fp.connection = c.init(ConnectionType.OBTAINJWT, id);
-    fp.obtainJWT(JWTTokenRequest reqBody) // returns a new JWT token
-
-    fp.connection = c.init(ConnectionType.FORGOTTENUSERNAME, id);
-    fp.forgottenUsername(ForgottenUsernameRequest reqBody) // sends an email with the username
-    
-    fp.connection = c.init(ConnectionType.FORGOTTENPASSWORD, id);
-    fp.forgottenPassword(ForgottenPasswordRequest reqBody) // sends an email with the password
-
-    fp.connection = c.init(ConnectionType.PASSWORDRESET, id);
-    fp.passwordReset(PasswordResetRequest reqBody) // resets password
-
-    fp.connection = c.init(ConnectionType.TOKENLOGOUT, id);
-    fp.tokenLogout() // logs out the JWT token
+    fp.connection = c.init(ConnectionType.DELETEKEY, id, false, true);
+    fp.deleteKey() // deletes the API key
 
     // Customer section
+    // POST /api/vault/customer
 
-    fp.connection = c.init(ConnectionType.CUSTOMER, id);
-    fp.createCustomer(CreateCustomerRequest reqBody) // creates a new customer token
+    fp.connection = c.init(ConnectionType.CUSTOMER, id, false, true);
+    fp.createCustomer(CreateCustomerRequest reqBody) // creates a new customer record
     
     id.put("customerId", "yourCustomerId");
-    fp.connection = c.init(ConnectionType.CUSTOMERID, id);
-    fp.getCustomer() // returns the customer token
+    fp.connection = c.init(ConnectionType.CUSTOMERID, id, false, true);
+    fp.getCustomer() // returns the customer record
 
     id.put("customerId", "yourCustomerId");
-    fp.connection = c.init(ConnectionType.CUSTOMERID, id);
-    fp.updateCustomer(UpdateCustomerRequest reqBody) // updates the customer token
+    fp.connection = c.init(ConnectionType.CUSTOMERUPDATE, id, false, true);
+    fp.updateCustomer(UpdateCustomerRequest reqBody) // updates the customer record
     
     id.put("customerId", "yourCustomerId");
-    fp.connection = c.init(ConnectionType.CUSTOMERID, id);
-    fp.deleteCustomer() // deletes the customer token
+    fp.connection = c.init(ConnectionType.CUSTOMERID, id, false, true);
+    fp.deleteCustomer() // deletes the customer record
+    
+    // Search customers
+    fp.connection = c.init(ConnectionType.CUSTOMERSEARCH, id, false, true);
+    fp.searchCustomers(CustomerSearchRequest reqBody) // searches for customers matching criteria
+    
+    // Address operations
+    // POST /api/vault/customer/{customer_id}/address
     
     id.put("customerId", "yourCustomerId");
-    fp.connection = c.init(ConnectionType.CUSTOMERADDRESS, id);
-    fp.createCustomerAddress(CustomerAddressRequest reqBody) // creates a new address token
-    
-    id.put("customerId", "yourCustomerId");
-    id.put("addressTokenId", "yourAddressTokenId");
-    fp.connection = c.init(ConnectionType.CUSTOMERADDRESSID, id);
-    fp.getCustomerAddress() // returns the address token
-    
-    id.put("customerId", "yourCustomerId");
-    fp.connection = c.init(ConnectionType.CUSTOMERADDRESSES, id);
-    fp.getCustomerAddresses() // returns all address tokens
-    
-    id.put("customerId", "yourCustomerId");
-    id.put("addressTokenId", "yourAddressTokenId");
-    fp.connection = c.init(ConnectionType.CUSTOMERADDRESSID, id);
-    fp.updateCustomerAddress(CustomerAddressRequest reqBody) // updates the address token
+    fp.connection = c.init(ConnectionType.CUSTOMERADDRESS, id, false, true);
+    fp.createCustomerAddress(CustomerAddressRequest reqBody) // creates a new address record
     
     id.put("customerId", "yourCustomerId");
     id.put("addressTokenId", "yourAddressTokenId");
-    fp.connection = c.init(ConnectionType.CUSTOMERADDRESSID, id);
-    fp.deleteCustomerAddress() // deletes the address token
+    fp.connection = c.init(ConnectionType.CUSTOMERADDRESSID, id, false, true);
+    fp.updateCustomerAddress(CustomerAddressRequest reqBody) // updates the address record
     
     id.put("customerId", "yourCustomerId");
-    id.put("paymentType", "yourPaymentType");
-    fp.connection = c.init(ConnectionType.CUSTOMERPAYMENT, id);
-    fp.createCustomerPayment(CustomerPaymentRequest reqBody) // creates a new payment token
+    id.put("addressTokenId", "yourAddressTokenId");
+    fp.connection = c.init(ConnectionType.CUSTOMERADDRESSID, id, false, true);
+    fp.deleteCustomerAddress() // deletes the address record
+    
+    // Note: Address records cannot be fetched individually. Use getCustomer() to retrieve all addresses.
+    
+    // Payment method operations
+    // Unified payment method creation - endpoint determined by payload type
     
     id.put("customerId", "yourCustomerId");
-    id.put("paymentType", "yourPaymentType");
+    // Determine connection type based on payload
+    ConnectionType paymentType = fp.getPaymentConnectionType(paymentRequest);
+    fp.connection = c.init(paymentType, id, false, true);
+    fp.createCustomerPayment(Object reqBody) // creates a new payment method (card, ACH, token, Apple Pay, or Google Pay)
+    
+    id.put("customerId", "yourCustomerId");
+    // For update/delete, set connection type based on payment method type
+    fp.connection = c.init(ConnectionType.CUSTOMERCARDID, id, false, true); // or CUSTOMERACHID, CUSTOMERTOKENID
+    fp.updateCustomerPayment(Object reqBody) // updates the payment method
+    
+    id.put("customerId", "yourCustomerId");
     id.put("paymentTokenId", "yourPaymentTokenId");
-    fp.connection = c.init(ConnectionType.CUSTOMERPAYMENTID, id);
-    fp.getCustomerPayment() // returns the payment token
+    fp.connection = c.init(ConnectionType.CUSTOMERCARDID, id, false, true); // or CUSTOMERACHID, CUSTOMERTOKENID
+    fp.deleteCustomerPayment() // deletes the payment method
     
-    id.put("customerId", "yourCustomerId");
-    id.put("paymentType", "yourPaymentType");
-    fp.connection = c.init(ConnectionType.CUSTOMERPAYMENT, id);
-    fp.getCustomerPayments() // returns all payment tokens
-    
-    id.put("customerId", "yourCustomerId");
-    id.put("paymentType", "yourPaymentType");
-    id.put("paymentTokenId", "yourPaymentTokenId");
-    fp.connection = c.init(ConnectionType.CUSTOMERPAYMENTID, id);
-    fp.updateCustomerPayment(CustomerPaymentRequest reqBody) // updates the payment token
-    
-    id.put("customerId", "yourCustomerId");
-    id.put("paymentType", "yourPaymentType");
-    id.put("paymentTokenId", "yourPaymentTokenId");
-    fp.connection = c.init(ConnectionType.CUSTOMERPAYMENTID, id);
-    fp.deleteCustomerPayment() // deletes the payment token
+    // Note: Payment method records cannot be fetched individually. Use getCustomer() to retrieve all payment methods.
     
     // Recurring section
     
-    fp.connection = c.init(ConnectionType.ADDON, id);
+    // Add-Ons
+    fp.connection = c.init(ConnectionType.ADDON, id, false, true);
     fp.createAddOn(RecurrenceRequest reqBody) // creates a new add on
     
     id.put("addOnId", "yourAddOnId");
-    fp.connection = c.init(ConnectionType.ADDONID, id);
+    fp.connection = c.init(ConnectionType.ADDONID, id, false, true);
     fp.getAddOn() // returns the add on
     
-    fp.connection = c.init(ConnectionType.ADDONS, id);
-    fp.getAddons() // returns all add ons
+    fp.connection = c.init(ConnectionType.ADDONS, id, false, true);
+    fp.getAddOns() // returns all add ons
     
     id.put("addOnId", "yourAddOnId");
-    fp.connection = c.init(ConnectionType.ADDONID, id);
+    fp.connection = c.init(ConnectionType.ADDONID, id, false, true);
     fp.updateAddOn(RecurrenceRequest reqBody) // updates the add on
     
     id.put("addOnId", "yourAddOnId");
-    fp.connection = c.init(ConnectionType.ADDONID, id);
+    fp.connection = c.init(ConnectionType.ADDONID, id, false, true);
     fp.deleteAddOn() // deletes the add on
     
-    fp.connection = c.init(ConnectionType.DISCOUNT, id);
+    // Discounts
+    fp.connection = c.init(ConnectionType.DISCOUNT, id, false, true);
     fp.createDiscount(RecurrenceRequest reqBody) // creates a new discount
     
     id.put("discountId", "yourDiscountId");
-    fp.connection = c.init(ConnectionType.DISCOUNTID, id);
+    fp.connection = c.init(ConnectionType.DISCOUNTID, id, false, true);
     fp.getDiscount() // returns the discount
     
-    fp.connection = c.init(ConnectionType.DISCOUNTS, id);
+    fp.connection = c.init(ConnectionType.DISCOUNTS, id, false, true);
     fp.getDiscounts() // returns all discounts
     
     id.put("discountId", "yourDiscountId");
-    fp.connection = c.init(ConnectionType.DISCOUNTID, id);
+    fp.connection = c.init(ConnectionType.DISCOUNTID, id, false, true);
     fp.updateDiscount(RecurrenceRequest reqBody) // updates the discount
     
     id.put("discountId", "yourDiscountId");
-    fp.connection = c.init(ConnectionType.DISCOUNTID, id);
+    fp.connection = c.init(ConnectionType.DISCOUNTID, id, false, true);
     fp.deleteDiscount() // deletes the discount
     
-    fp.connection = c.init(ConnectionType.PLAN, id);
+    // Plans
+    fp.connection = c.init(ConnectionType.PLAN, id, false, true);
     fp.createPlan(PlanRequest reqBody) // creates a new plan
     
     id.put("planId", "yourPlanId");
-    fp.connection = c.init(ConnectionType.PLANID, id);
+    fp.connection = c.init(ConnectionType.PLANID, id, false, true);
     fp.getPlan() // returns the plan
     
-    fp.connection = c.init(ConnectionType.PLANS, id);
+    fp.connection = c.init(ConnectionType.PLANS, id, false, true);
     fp.getPlans() // returns all plans
     
     id.put("planId", "yourPlanId");
-    fp.connection = c.init(ConnectionType.PLANID, id);
+    fp.connection = c.init(ConnectionType.PLANID, id, false, true);
     fp.updatePlan(PlanRequest reqBody) // updates the plan
     
     id.put("planId", "yourPlanId");
-    fp.connection = c.init(ConnectionType.PLANID, id);
+    fp.connection = c.init(ConnectionType.PLANID, id, false, true);
     fp.deletePlan() // deletes the plan
     
-    fp.connection = c.init(ConnectionType.SUBSCRIPTION, id);
+    // Subscriptions
+    fp.connection = c.init(ConnectionType.SUBSCRIPTION, id, false, true);
     fp.createSubscription(SubscriptionRequest reqBody) // creates a new subscription
     
     id.put("subscriptionId", "yourSubscriptionId");
-    fp.connection = c.init(ConnectionType.SUBSCRIPTIONID, id);
+    fp.connection = c.init(ConnectionType.SUBSCRIPTIONID, id, false, true);
     fp.getSubscription() // returns the subscription
     
-    id.put("subscriptionId", "yourSubscriptionId");
-    fp.connection = c.init(ConnectionType.SUBSCRIPTIONID, id);
-    fp.updateSubscription(SubscriptionRequest reqBody) // updates the subscription
+    // Search subscriptions
+    fp.connection = c.init(ConnectionType.SUBSCRIPTIONSEARCH, id, false, true);
+    fp.searchSubscriptions(Object reqBody) // searches for subscriptions matching criteria
     
     id.put("subscriptionId", "yourSubscriptionId");
-    fp.connection = c.init(ConnectionType.SUBSCRIPTIONID, id);
+    fp.connection = c.init(ConnectionType.SUBSCRIPTIONID, id, false, true);
+    fp.updateSubscription(SubscriptionRequest reqBody) // updates the subscription
+    
+    // Subscription status operations
+    id.put("subscriptionId", "yourSubscriptionId");
+    fp.connection = c.init(ConnectionType.SUBSCRIPTIONPAUSED, id, false, true);
+    fp.pauseSubscription() // pauses the subscription
+    
+    id.put("subscriptionId", "yourSubscriptionId");
+    fp.connection = c.init(ConnectionType.SUBSCRIPTIONPASTDUE, id, false, true);
+    fp.markSubscriptionPastDue() // marks subscription as past due
+    
+    id.put("subscriptionId", "yourSubscriptionId");
+    fp.connection = c.init(ConnectionType.SUBSCRIPTIONCANCELLED, id, false, true);
+    fp.cancelSubscription() // cancels the subscription
+    
+    id.put("subscriptionId", "yourSubscriptionId");
+    fp.connection = c.init(ConnectionType.SUBSCRIPTIONACTIVE, id, false, true);
+    fp.activateSubscription() // activates the subscription
+    
+    id.put("subscriptionId", "yourSubscriptionId");
+    fp.connection = c.init(ConnectionType.SUBSCRIPTIONCOMPLETED, id, false, true);
+    fp.completeSubscription() // completes the subscription
+    
+    id.put("subscriptionId", "yourSubscriptionId");
+    fp.connection = c.init(ConnectionType.SUBSCRIPTIONID, id, false, true);
     fp.deleteSubscription() // deletes the subscription
     
     // Terminals section
     
-    fp.connection = c.init(ConnectionType.TERMINALS, id);
+    fp.connection = c.init(ConnectionType.TERMINALS, id, false, true);
     fp.getTerminals() // returns all terminals
     
     // Transactions section
+    // All transaction request models (CardTransactionRequest, AchTransactionRequest, 
+    // CustomerTransactionRequest, TerminalTransactionRequest) support all fields 
+    // documented in the Fluidpay API. See the request model classes for available fields.
     
-    fp.connection = c.init(ConnectionType.TRANSACTION, id);
-    fp.doTransaction(TransactionRquest reqBody) // initiates a transaction
+    fp.connection = c.init(ConnectionType.TRANSACTION, id, false, true);
+    fp.doTransaction(TransactionRequest reqBody) // processes a transaction (card, ACH, customer, terminal, etc.)
     
     id.put("transactionId", "yourTransactionId");
-    fp.connection = c.init(ConnectionType.TRANSACTIONSTATUS, id);
+    fp.connection = c.init(ConnectionType.TRANSACTIONSTATUS, id, false, true);
     fp.getTransactionStatus() // returns the state of the transaction
 
-    fp.connection = c.init(ConnectionType.TRANSACTIONQUERY, id);
-    fp.queryTransaction(TransactionQueryRequest reqBody) // returns the qualified transactions
+    fp.connection = c.init(ConnectionType.TRANSACTIONQUERY, id, false, true);
+    fp.queryTransactions(TransactionQueryRequest reqBody) // searches for transactions matching criteria
     
     id.put("transactionId", "yourTransactionId");
-    fp.connection = c.init(ConnectionType.TRANSACTIONCAPTURE, id);
-    fp.captureTransaction(TransactionCaptureRequest reqBody) // captures the transaction
+    fp.connection = c.init(ConnectionType.TRANSACTIONCAPTURE, id, false, true);
+    fp.captureTransaction(TransactionCaptureRequest reqBody) // captures an authorized transaction
     
     id.put("transactionId", "yourTransactionId");
-    fp.connection = c.init(ConnectionType.TRANSACTIONVOID, id);
-    fp.voidTransaction() // voids the transaction
+    fp.connection = c.init(ConnectionType.TRANSACTIONVOID, id, false, true);
+    fp.voidTransaction() // voids a transaction pending settlement
     
     id.put("transactionId", "yourTransactionId");
-    fp.connection = c.init(ConnectionType.TRANSACTIONREFUND, id);
-    fp.refundTransaction(TransactionRefundRequest reqBody) // refunds the transaction
+    fp.connection = c.init(ConnectionType.TRANSACTIONREFUND, id, false, true);
+    fp.refundTransaction(TransactionRefundRequest reqBody) // refunds a settled transaction
     
     // Users section
     
-    fp.connection = c.init(ConnectionType.CHANGEPASSWORD, id);
+    fp.connection = c.init(ConnectionType.CHANGEPASSWORD, id, false, true);
     fp.changePassword(ChangePasswordRequest reqBody) // changes the password
     
-    fp.connection = c.init(ConnectionType.USER, id);
+    fp.connection = c.init(ConnectionType.USER, id, false, true);
     fp.createUser(CreateUserRequest reqBody) // creates a new user
     
-    fp.connection = c.init(ConnectionType.USER, id);
-    fp.getCurrentUser() // returns the currently active user
+    fp.connection = c.init(ConnectionType.USER, id, false, true);
+    fp.currentUser() // returns the currently active user
     
     id.put("userId", "yourUserId");
-    fp.connection = c.init(ConnectionType.USERID, id);
+    fp.connection = c.init(ConnectionType.USERID, id, false, true);
     fp.getUser() // returns the user
     
-    fp.connection = c.init(ConnectionType.USERS, id);
+    fp.connection = c.init(ConnectionType.USERS, id, false, true);
     fp.getUsers() // returns all users
     
     id.put("userId", "yourUserId");
-    fp.connection = c.init(ConnectionType.USERID, id);
+    fp.connection = c.init(ConnectionType.USERID, id, false, true);
     fp.updateUser(UpdateUserRequest reqBody) // updates the user
     
     id.put("userId", "yourUserId");
-    fp.connection = c.init(ConnectionType.USERID, id);
+    fp.connection = c.init(ConnectionType.USERID, id, false, true);
     fp.deleteUser() // deletes the user
 }
 ```
 
 ## Documentation
-Further information can be found on the [Fluid Pay website](https://sandbox.fluidpay.com/docs/index.html#introduction).
+Further information can be found on the [Fluid Pay website](https://sandbox.fluidpay.com/docs).
