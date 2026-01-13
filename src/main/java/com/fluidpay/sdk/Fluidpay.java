@@ -381,7 +381,9 @@ public class Fluidpay {
     // Terminals section
 
     /**
-     * gets all the terminals
+     * Retrieve all terminals associated with the gateway account.
+     * This will include inactive/disabled terminals as well.
+     * GET /api/terminals
      */
     public TerminalsResponse getTerminals() throws IOException {
         return te.getTerminals(connection, apiKey);
