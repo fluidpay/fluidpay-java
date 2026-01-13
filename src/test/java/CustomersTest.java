@@ -215,7 +215,7 @@ class CustomersTest {
 
         CustomerResponse updCusRes = new CustomerResponse();
         try {
-            fp.connection = c.init(ConnectionType.CUSTOMERID, id, false, true);
+            fp.connection = c.init(ConnectionType.CUSTOMERUPDATE, id, false, true);
             updCusRes = fp.updateCustomer(updCusReq);
         } catch (IOException e) {
             e.printStackTrace();

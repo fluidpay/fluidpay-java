@@ -34,6 +34,14 @@ public class Customers {
         return om.readValue(resBody, CustomerResponse.class);
     }
 
+    public CustomersResponse searchCustomers(HttpURLConnection conn, CustomerSearchRequest reqBody, String apiKey) throws IOException {
+        byte[] body = om.writeValueAsBytes(reqBody);
+
+        String resBody = util.doRequest(conn, "POST", body, apiKey);
+
+        return om.readValue(resBody, CustomersResponse.class);
+    }
+
     public CustomerResponse deleteCustomer(HttpURLConnection conn, String apiKey) throws IOException {
         String resBody = util.doRequest(conn, "DELETE", null, apiKey);
 
@@ -78,7 +86,8 @@ public class Customers {
 
     // --------------------- Customer payment section. --------------------------
 
-    public CustomerPaymentResponse createCustomerPayment(HttpURLConnection conn, CustomerPaymentRequest reqBody, String apiKey) throws IOException {
+    // Card payment methods
+    public CustomerPaymentResponse createCustomerCard(HttpURLConnection conn, CustomerPaymentRequest reqBody, String apiKey) throws IOException {
         byte[] body = om.writeValueAsBytes(reqBody);
 
         String resBody = util.doRequest(conn, "POST", body, apiKey);
@@ -86,19 +95,19 @@ public class Customers {
         return om.readValue(resBody, CustomerPaymentResponse.class);
     }
 
-    public CustomerPaymentsResponse getCustomerPayments(HttpURLConnection conn, String apiKey) throws IOException {
+    public CustomerPaymentsResponse getCustomerCards(HttpURLConnection conn, String apiKey) throws IOException {
         String resBody = util.doRequest(conn, "GET", null, apiKey);
 
         return om.readValue(resBody, CustomerPaymentsResponse.class);
     }
 
-    public CustomerPaymentsResponse getCustomerPayment(HttpURLConnection conn, String apiKey) throws IOException {
+    public CustomerPaymentResponse getCustomerCard(HttpURLConnection conn, String apiKey) throws IOException {
         String resBody = util.doRequest(conn, "GET", null, apiKey);
 
-        return om.readValue(resBody, CustomerPaymentsResponse.class);
+        return om.readValue(resBody, CustomerPaymentResponse.class);
     }
 
-    public CustomerPaymentResponse updateCustomerPayment(HttpURLConnection conn, CustomerPaymentRequest reqBody, String apiKey) throws IOException {
+    public CustomerPaymentResponse updateCustomerCard(HttpURLConnection conn, CustomerPaymentRequest reqBody, String apiKey) throws IOException {
         byte[] body = om.writeValueAsBytes(reqBody);
 
         String resBody = util.doRequest(conn, "POST", body, apiKey);
@@ -106,9 +115,59 @@ public class Customers {
         return om.readValue(resBody, CustomerPaymentResponse.class);
     }
 
-    public CustomerPaymentResponse deleteCustomerPayment(HttpURLConnection conn, String apiKey) throws IOException {
+    public CustomerPaymentResponse deleteCustomerCard(HttpURLConnection conn, String apiKey) throws IOException {
         String resBody = util.doRequest(conn, "DELETE", null, apiKey);
 
         return om.readValue(resBody, CustomerPaymentResponse.class);
+    }
+
+    // ACH payment methods
+    public CustomerPaymentResponse createCustomerAch(HttpURLConnection conn, Object reqBody, String apiKey) throws IOException {
+        byte[] body = om.writeValueAsBytes(reqBody);
+
+        String resBody = util.doRequest(conn, "POST", body, apiKey);
+
+        return om.readValue(resBody, CustomerPaymentResponse.class);
+    }
+
+    public CustomerPaymentResponse getCustomerAch(HttpURLConnection conn, String apiKey) throws IOException {
+        String resBody = util.doRequest(conn, "GET", null, apiKey);
+
+        return om.readValue(resBody, CustomerPaymentResponse.class);
+    }
+
+    public CustomerPaymentResponse updateCustomerAch(HttpURLConnection conn, Object reqBody, String apiKey) throws IOException {
+        byte[] body = om.writeValueAsBytes(reqBody);
+
+        String resBody = util.doRequest(conn, "POST", body, apiKey);
+
+        return om.readValue(resBody, CustomerPaymentResponse.class);
+    }
+
+    public CustomerPaymentResponse deleteCustomerAch(HttpURLConnection conn, String apiKey) throws IOException {
+        String resBody = util.doRequest(conn, "DELETE", null, apiKey);
+
+        return om.readValue(resBody, CustomerPaymentResponse.class);
+    }
+
+    // Legacy methods for backward compatibility
+    public CustomerPaymentResponse createCustomerPayment(HttpURLConnection conn, CustomerPaymentRequest reqBody, String apiKey) throws IOException {
+        return createCustomerCard(conn, reqBody, apiKey);
+    }
+
+    public CustomerPaymentsResponse getCustomerPayments(HttpURLConnection conn, String apiKey) throws IOException {
+        return getCustomerCards(conn, apiKey);
+    }
+
+    public CustomerPaymentsResponse getCustomerPayment(HttpURLConnection conn, String apiKey) throws IOException {
+        return getCustomerCards(conn, apiKey);
+    }
+
+    public CustomerPaymentResponse updateCustomerPayment(HttpURLConnection conn, CustomerPaymentRequest reqBody, String apiKey) throws IOException {
+        return updateCustomerCard(conn, reqBody, apiKey);
+    }
+
+    public CustomerPaymentResponse deleteCustomerPayment(HttpURLConnection conn, String apiKey) throws IOException {
+        return deleteCustomerCard(conn, apiKey);
     }
 }

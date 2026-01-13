@@ -66,41 +66,113 @@ public class Connection {
                 param = new String[]{"logout"};
                 return conn(param, sandbox, localDev);
             case CUSTOMER:
-                param = new String[]{"customer"};
+                param = new String[]{"vault", "customer"};
                 return conn(param, sandbox, localDev);
             case CUSTOMERID:
                 if (params.containsKey("customerId")) {
-                    param = new String[]{"customer", params.get("customerId")};
+                    param = new String[]{"vault", params.get("customerId")};
                     return conn(param, sandbox, localDev);
                 }
                 throw new Error("missing customer id");
+            case CUSTOMERUPDATE:
+                if (params.containsKey("customerId")) {
+                    param = new String[]{"vault", "customer", params.get("customerId")};
+                    return conn(param, sandbox, localDev);
+                }
+                throw new Error("missing customer id");
+            case CUSTOMERSEARCH:
+                param = new String[]{"vault", "customer", "search"};
+                return conn(param, sandbox, localDev);
             case CUSTOMERADDRESS:
                 if (params.containsKey("customerId")) {
-                    param = new String[]{"customer", params.get("customerId"), "address"};
+                    param = new String[]{"vault", "customer", params.get("customerId"), "address"};
                     return conn(param, sandbox, localDev);
                 }
                 throw new Error("missing customer id");
             case CUSTOMERADDRESSES:
                 if (params.containsKey("customerId")) {
-                    param = new String[]{"customer", params.get("customerId"), "addresses"};
+                    param = new String[]{"vault", "customer", params.get("customerId"), "address"};
                     return conn(param, sandbox, localDev);
                 }
                 throw new Error("missing customer id");
             case CUSTOMERADDRESSID:
                 if (params.containsKey("customerId") && params.containsKey("addressTokenId")) {
-                    param = new String[]{"customer", params.get("customerId"), "address", params.get("addressTokenId")};
+                    param = new String[]{"vault", "customer", params.get("customerId"), "address", params.get("addressTokenId")};
                     return conn(param, sandbox, localDev);
                 }
                 throw new Error("missing customer or address token id");
+            case CUSTOMERCARD:
+                if (params.containsKey("customerId")) {
+                    param = new String[]{"vault", "customer", params.get("customerId"), "card"};
+                    return conn(param, sandbox, localDev);
+                }
+                throw new Error("missing customer id");
+            case CUSTOMERCARDID:
+                if (params.containsKey("customerId") && params.containsKey("paymentTokenId")) {
+                    param = new String[]{"vault", "customer", params.get("customerId"), "card", params.get("paymentTokenId")};
+                    return conn(param, sandbox, localDev);
+                }
+                throw new Error("missing customer id or payment token id");
+            case CUSTOMERACH:
+                if (params.containsKey("customerId")) {
+                    param = new String[]{"vault", "customer", params.get("customerId"), "ach"};
+                    return conn(param, sandbox, localDev);
+                }
+                throw new Error("missing customer id");
+            case CUSTOMERACHID:
+                if (params.containsKey("customerId") && params.containsKey("paymentTokenId")) {
+                    param = new String[]{"vault", "customer", params.get("customerId"), "ach", params.get("paymentTokenId")};
+                    return conn(param, sandbox, localDev);
+                }
+                throw new Error("missing customer id or payment token id");
+            case CUSTOMERTOKEN:
+                if (params.containsKey("customerId")) {
+                    param = new String[]{"vault", "customer", params.get("customerId"), "token"};
+                    return conn(param, sandbox, localDev);
+                }
+                throw new Error("missing customer id");
+            case CUSTOMERTOKENID:
+                if (params.containsKey("customerId") && params.containsKey("paymentTokenId")) {
+                    param = new String[]{"vault", "customer", params.get("customerId"), "token", params.get("paymentTokenId")};
+                    return conn(param, sandbox, localDev);
+                }
+                throw new Error("missing customer id or payment token id");
+            case CUSTOMERAPPLEPAY:
+                if (params.containsKey("customerId")) {
+                    param = new String[]{"vault", "customer", params.get("customerId"), "applepay"};
+                    return conn(param, sandbox, localDev);
+                }
+                throw new Error("missing customer id");
+            case CUSTOMERGOOGLEPAY:
+                if (params.containsKey("customerId")) {
+                    param = new String[]{"vault", "customer", params.get("customerId"), "googlepay"};
+                    return conn(param, sandbox, localDev);
+                }
+                throw new Error("missing customer id");
+            // Legacy support - keep for backward compatibility but map to card
             case CUSTOMERPAYMENT:
                 if (params.containsKey("customerId") && params.containsKey("paymentType")) {
-                    param = new String[]{"customer", params.get("customerId"), "paymentmethod", params.get("paymentType")};
+                    String paymentType = params.get("paymentType");
+                    if ("card".equals(paymentType)) {
+                        param = new String[]{"vault", "customer", params.get("customerId"), "card"};
+                    } else if ("ach".equals(paymentType)) {
+                        param = new String[]{"vault", "customer", params.get("customerId"), "ach"};
+                    } else {
+                        throw new Error("unsupported payment type: " + paymentType);
+                    }
                     return conn(param, sandbox, localDev);
                 }
                 throw new Error("missing customer id or payment type");
             case CUSTOMERPAYMENTID:
                 if (params.containsKey("customerId") && params.containsKey("paymentType") && params.containsKey("paymentTokenId")) {
-                    param = new String[]{"customer", params.get("customerId"), "paymentmethod", params.get("paymentType"), params.get("paymentTokenId")};
+                    String paymentType = params.get("paymentType");
+                    if ("card".equals(paymentType)) {
+                        param = new String[]{"vault", "customer", params.get("customerId"), "card", params.get("paymentTokenId")};
+                    } else if ("ach".equals(paymentType)) {
+                        param = new String[]{"vault", "customer", params.get("customerId"), "ach", params.get("paymentTokenId")};
+                    } else {
+                        throw new Error("unsupported payment type: " + paymentType);
+                    }
                     return conn(param, sandbox, localDev);
                 }
                 throw new Error("missing customer, payment token id or payment type");
@@ -239,41 +311,113 @@ public class Connection {
                 param = new String[]{"logout"};
                 return conn(param);
             case CUSTOMER:
-                param = new String[]{"customer"};
+                param = new String[]{"vault", "customer"};
                 return conn(param);
             case CUSTOMERID:
                 if (params.containsKey("customerId")) {
-                    param = new String[]{"customer", params.get("customerId")};
+                    param = new String[]{"vault", params.get("customerId")};
                     return conn(param);
                 }
                 throw new Error("missing customer id");
+            case CUSTOMERUPDATE:
+                if (params.containsKey("customerId")) {
+                    param = new String[]{"vault", "customer", params.get("customerId")};
+                    return conn(param);
+                }
+                throw new Error("missing customer id");
+            case CUSTOMERSEARCH:
+                param = new String[]{"vault", "customer", "search"};
+                return conn(param);
             case CUSTOMERADDRESS:
                 if (params.containsKey("customerId")) {
-                    param = new String[]{"customer", params.get("customerId"), "address"};
+                    param = new String[]{"vault", "customer", params.get("customerId"), "address"};
                     return conn(param);
                 }
                 throw new Error("missing customer id");
             case CUSTOMERADDRESSES:
                 if (params.containsKey("customerId")) {
-                    param = new String[]{"customer", params.get("customerId"), "addresses"};
+                    param = new String[]{"vault", "customer", params.get("customerId"), "address"};
                     return conn(param);
                 }
                 throw new Error("missing customer id");
             case CUSTOMERADDRESSID:
                 if (params.containsKey("customerId") && params.containsKey("addressTokenId")) {
-                    param = new String[]{"customer", params.get("customerId"), "address", params.get("addressTokenId")};
+                    param = new String[]{"vault", "customer", params.get("customerId"), "address", params.get("addressTokenId")};
                     return conn(param);
                 }
                 throw new Error("missing customer or address token id");
+            case CUSTOMERCARD:
+                if (params.containsKey("customerId")) {
+                    param = new String[]{"vault", "customer", params.get("customerId"), "card"};
+                    return conn(param);
+                }
+                throw new Error("missing customer id");
+            case CUSTOMERCARDID:
+                if (params.containsKey("customerId") && params.containsKey("paymentTokenId")) {
+                    param = new String[]{"vault", "customer", params.get("customerId"), "card", params.get("paymentTokenId")};
+                    return conn(param);
+                }
+                throw new Error("missing customer id or payment token id");
+            case CUSTOMERACH:
+                if (params.containsKey("customerId")) {
+                    param = new String[]{"vault", "customer", params.get("customerId"), "ach"};
+                    return conn(param);
+                }
+                throw new Error("missing customer id");
+            case CUSTOMERACHID:
+                if (params.containsKey("customerId") && params.containsKey("paymentTokenId")) {
+                    param = new String[]{"vault", "customer", params.get("customerId"), "ach", params.get("paymentTokenId")};
+                    return conn(param);
+                }
+                throw new Error("missing customer id or payment token id");
+            case CUSTOMERTOKEN:
+                if (params.containsKey("customerId")) {
+                    param = new String[]{"vault", "customer", params.get("customerId"), "token"};
+                    return conn(param);
+                }
+                throw new Error("missing customer id");
+            case CUSTOMERTOKENID:
+                if (params.containsKey("customerId") && params.containsKey("paymentTokenId")) {
+                    param = new String[]{"vault", "customer", params.get("customerId"), "token", params.get("paymentTokenId")};
+                    return conn(param);
+                }
+                throw new Error("missing customer id or payment token id");
+            case CUSTOMERAPPLEPAY:
+                if (params.containsKey("customerId")) {
+                    param = new String[]{"vault", "customer", params.get("customerId"), "applepay"};
+                    return conn(param);
+                }
+                throw new Error("missing customer id");
+            case CUSTOMERGOOGLEPAY:
+                if (params.containsKey("customerId")) {
+                    param = new String[]{"vault", "customer", params.get("customerId"), "googlepay"};
+                    return conn(param);
+                }
+                throw new Error("missing customer id");
+            // Legacy support - keep for backward compatibility but map to card
             case CUSTOMERPAYMENT:
                 if (params.containsKey("customerId") && params.containsKey("paymentType")) {
-                    param = new String[]{"customer", params.get("customerId"), "paymentmethod", params.get("paymentType")};
+                    String paymentType = params.get("paymentType");
+                    if ("card".equals(paymentType)) {
+                        param = new String[]{"vault", "customer", params.get("customerId"), "card"};
+                    } else if ("ach".equals(paymentType)) {
+                        param = new String[]{"vault", "customer", params.get("customerId"), "ach"};
+                    } else {
+                        throw new Error("unsupported payment type: " + paymentType);
+                    }
                     return conn(param);
                 }
                 throw new Error("missing customer id or payment type");
             case CUSTOMERPAYMENTID:
                 if (params.containsKey("customerId") && params.containsKey("paymentType") && params.containsKey("paymentTokenId")) {
-                    param = new String[]{"customer", params.get("customerId"), "paymentmethod", params.get("paymentType"), params.get("paymentTokenId")};
+                    String paymentType = params.get("paymentType");
+                    if ("card".equals(paymentType)) {
+                        param = new String[]{"vault", "customer", params.get("customerId"), "card", params.get("paymentTokenId")};
+                    } else if ("ach".equals(paymentType)) {
+                        param = new String[]{"vault", "customer", params.get("customerId"), "ach", params.get("paymentTokenId")};
+                    } else {
+                        throw new Error("unsupported payment type: " + paymentType);
+                    }
                     return conn(param);
                 }
                 throw new Error("missing customer, payment token id or payment type");

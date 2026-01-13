@@ -133,6 +133,13 @@ public class Fluidpay {
     }
 
     /**
+     * searches for customers matching the provided criteria
+     */
+    public CustomersResponse searchCustomers(CustomerSearchRequest reqBody) throws IOException {
+        return cu.searchCustomers(connection, reqBody, apiKey);
+    }
+
+    /**
      * creates a new customer address token (customerId)
      */
     public CustomerAddressResponse createCustomerAddress(CustomerAddressRequest reqBody) throws IOException {
@@ -167,36 +174,102 @@ public class Fluidpay {
         return cu.deleteCustomerAddress(connection, apiKey);
     }
 
+    // Card payment methods
     /**
-     * creates a new customer payment token (customerId)
+     * creates a new customer card payment method (customerId)
+     */
+    public CustomerPaymentResponse createCustomerCard(CustomerPaymentRequest reqBody) throws IOException {
+        return cu.createCustomerCard(connection, reqBody, apiKey);
+    }
+
+    /**
+     * returns all card payment methods of a customer identified by ID (customerId)
+     */
+    public CustomerPaymentsResponse getCustomerCards() throws IOException {
+        return cu.getCustomerCards(connection, apiKey);
+    }
+
+    /**
+     * returns a specific card payment method of a customer (customerId, paymentTokenId)
+     */
+    public CustomerPaymentResponse getCustomerCard() throws IOException {
+        return cu.getCustomerCard(connection, apiKey);
+    }
+
+    /**
+     * updates a card payment method of a customer (customerId, paymentTokenId)
+     */
+    public CustomerPaymentResponse updateCustomerCard(CustomerPaymentRequest reqBody) throws IOException {
+        return cu.updateCustomerCard(connection, reqBody, apiKey);
+    }
+
+    /**
+     * deletes a card payment method of a customer (customerId, paymentTokenId)
+     */
+    public CustomerPaymentResponse deleteCustomerCard() throws IOException {
+        return cu.deleteCustomerCard(connection, apiKey);
+    }
+
+    // ACH payment methods
+    /**
+     * creates a new customer ACH payment method (customerId)
+     */
+    public CustomerPaymentResponse createCustomerAch(Object reqBody) throws IOException {
+        return cu.createCustomerAch(connection, reqBody, apiKey);
+    }
+
+    /**
+     * returns a specific ACH payment method of a customer (customerId, paymentTokenId)
+     */
+    public CustomerPaymentResponse getCustomerAch() throws IOException {
+        return cu.getCustomerAch(connection, apiKey);
+    }
+
+    /**
+     * updates an ACH payment method of a customer (customerId, paymentTokenId)
+     */
+    public CustomerPaymentResponse updateCustomerAch(Object reqBody) throws IOException {
+        return cu.updateCustomerAch(connection, reqBody, apiKey);
+    }
+
+    /**
+     * deletes an ACH payment method of a customer (customerId, paymentTokenId)
+     */
+    public CustomerPaymentResponse deleteCustomerAch() throws IOException {
+        return cu.deleteCustomerAch(connection, apiKey);
+    }
+
+    // Legacy methods for backward compatibility
+    /**
+     * creates a new customer payment token (customerId) - legacy method, use createCustomerCard instead
      */
     public CustomerPaymentResponse createCustomerPayment(CustomerPaymentRequest reqBody) throws IOException {
         return cu.createCustomerPayment(connection, reqBody, apiKey);
     }
 
     /**
-     * returns a payment token of a customer both identified by ID (customerId, paymentTokenId)
+     * returns a payment token of a customer both identified by ID (customerId, paymentTokenId) - legacy method
      */
     public CustomerPaymentsResponse getCustomerPayment() throws IOException {
         return cu.getCustomerPayment(connection, apiKey);
     }
 
     /**
-     * returns all the payment tokens of a customer identified by ID (customerId)
+     * returns all the payment tokens of a customer identified by ID (customerId) - legacy method, use getCustomerCards instead
      */
     public CustomerPaymentsResponse getCustomerPayments() throws IOException {
         return cu.getCustomerPayments(connection, apiKey);
     }
 
     /**
-     * updates a payment token of a customer both identified by ID (customerId, paymentTokenId)
+     * updates a payment token of a customer both identified by ID (customerId, paymentTokenId) - legacy method, use updateCustomerCard instead
      */
     public CustomerPaymentResponse updateCustomerPayment(CustomerPaymentRequest reqBody) throws IOException {
         return cu.updateCustomerPayment(connection, reqBody, apiKey);
     }
 
     /**
-     * deletes a payment token of a customer both identified by the ID (customerId, paymentTokenId)
+     * deletes a payment token of a customer both identified by the ID (customerId, paymentTokenId) - legacy method, use deleteCustomerCard instead
      */
     public CustomerPaymentResponse deleteCustomerPayment() throws IOException {
         return cu.deleteCustomerPayment(connection, apiKey);
